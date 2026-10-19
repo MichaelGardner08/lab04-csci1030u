@@ -2,8 +2,6 @@
 #
 # This is a COMMAND-LINE program. You run it like:
 #     python filter_csv.py people.csv city Oshawa
-#
-# The argument parser is finished for you. Complete the TODO.
 
 import argparse
 import csv
@@ -18,10 +16,18 @@ def main():
 
     args = parser.parse_args()
 
-    # TODO: open args.filename and read it with csv.reader. The first row is the
-    #   header. Find the position of args.column within the header, then print every
-    #   data row (its values joined by commas) whose value in that column equals
-    #   args.value.
+    # Open the CSV file and read all rows
+    with open(args.filename, newline="") as file:
+        rows = list(csv.reader(file))
+
+    # The first row contains the column names
+    header = rows[0]
+    column_index = header.index(args.column)
+
+    # Print rows where the chosen column matches the value
+    for row in rows[1:]:
+        if row[column_index] == args.value:
+            print(",".join(row))
 
 
 if __name__ == "__main__":
